@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import SiriWave from "siriwave";
@@ -8,9 +8,12 @@ import SiriWave from "siriwave";
   templateUrl: './record-audio.component.html',
   styleUrls: ['./record-audio.component.scss']
 })
-export class RecordAudioComponent {
+export class RecordAudioComponent implements AfterViewInit {
   mediaRecorder!: MediaRecorder;
   audioChunks: Blob[] = [];
+  @ViewChild('siriAnimationContainer') siriAnimationContainer!: ElementRef;
+  siriWave!: SiriWave;
+  audioIsRecording: boolean = false;
 
   constructor(private httpClient: HttpClient) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -28,10 +31,12 @@ export class RecordAudioComponent {
 
   record() {
     this.audioChunks = [];
-    this.mediaRecorder.start(50)
+    this.mediaRecorder.start(50);
+    this.audioIsRecording = true;
   }
 
   stop() {
+    this.audioIsRecording = false;
     this.mediaRecorder.stop();
     let blobWebm = new Blob(this.audioChunks);
     this.convertWebmToWav(blobWebm).then(blobWav => {
@@ -39,26 +44,6 @@ export class RecordAudioComponent {
       formData.append('audio', blobWav);
       this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {
         console.log(response);
-        let siriWave = new SiriWave({
-          container: document.getElementById("siri-container") as HTMLElement,
-          width: 640,
-          height: 200,
-          style: 'ios9',
-          curveDefinition: [
-            {
-              color: "255,255,255",
-              supportLine: true,
-            },
-            {
-              color: "15, 82, 169",
-            },
-            {
-              color: "173, 57, 76",
-            },
-            {
-              color: "48, 220, 155",
-            }]
-        });
       });
     });
   }
@@ -79,5 +64,29 @@ export class RecordAudioComponent {
 
     const outputData = ffmpeg.FS('readFile', outputName);
     return new Blob([outputData.buffer], {type: 'audio/wav'});
+  }
+
+  ngAfterViewInit(): void {
+    this.siriWave = new SiriWave({
+      container: this.siriAnimationContainer.nativeElement,
+      cover: true,
+      style: 'ios9',
+      curveDefinition: [
+        {
+          color: "255,255,255",
+          supportLine: true,
+        },
+        {
+          color: "15, 82, 169",
+        },
+        {
+          color: "173, 57, 76",
+        },
+        {
+          color: "48, 220, 155",
+        }],
+      amplitude: 1.5,
+      speed: 0.15,
+    });
   }
 }

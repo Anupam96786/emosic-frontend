@@ -40,7 +40,8 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "@ffmpeg/ffmpeg"
+              "@ffmpeg/ffmpeg",
+              "siriwave"
             ],
             "outputPath": "dist/emosic",
             "index": "src/index.html",

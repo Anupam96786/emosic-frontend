@@ -1,2 +1,2 @@
 <button (mousedown)="record()" (mouseup)="stop()">Record</button>
-<div id="siri-container"></div>
+<div #siriAnimationContainer style="width: 100%; height: 200px" [hidden]="!audioIsRecording"></div>
