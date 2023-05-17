@@ -1,7 +1,1 @@
 <button (mousedown)="record()" (mouseup)="stop()">Record</button>
-<ng-template [ngIf]="audioUrl">
-  <audio controls>
-    <source [src]="audioUrl" type="audio/webm">
-    Your browser does not support the audio element.
-  </audio>
-</ng-template>
