@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
+import SiriWave from "siriwave";
 
 @Component({
   selector: 'app-record-audio',
@@ -38,6 +39,26 @@ export class RecordAudioComponent {
       formData.append('audio', blobWav);
       this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {
         console.log(response);
+        let siriWave = new SiriWave({
+          container: document.getElementById("siri-container") as HTMLElement,
+          width: 640,
+          height: 200,
+          style: 'ios9',
+          curveDefinition: [
+            {
+              color: "255,255,255",
+              supportLine: true,
+            },
+            {
+              color: "15, 82, 169",
+            },
+            {
+              color: "173, 57, 76",
+            },
+            {
+              color: "48, 220, 155",
+            }]
+        });
       });
     });
   }
