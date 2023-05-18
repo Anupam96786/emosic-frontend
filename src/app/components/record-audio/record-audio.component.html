@@ -1,2 +1,2 @@
-<button (mousedown)="record()" (mouseup)="stop()">Record</button>
-<div id="siri-animation-container" #siriAnimationContainer [hidden]="!audioIsRecording"></div>
+<div id="siri-animation-container" #siriAnimationContainer [ngClass]="{'opacity-0': !audioIsRecording}"></div>
+<div (mousedown)="record()" (mouseup)="stop()">Record</div>
