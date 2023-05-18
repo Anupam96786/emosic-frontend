@@ -2,3 +2,16 @@
   width: 100%;
   aspect-ratio: 1 / 0.2;
 }
+
+.record-buttons-container {
+  button {
+    height: 5rem;
+    width: 5rem;
+    border: none;
+    background-color: #F72B36;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}

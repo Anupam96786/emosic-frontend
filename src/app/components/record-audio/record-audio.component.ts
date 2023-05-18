@@ -13,7 +13,7 @@ export class RecordAudioComponent implements AfterViewInit {
   audioChunks: Blob[] = [];
   @ViewChild('siriAnimationContainer') siriAnimationContainer!: ElementRef;
   siriWave!: SiriWave;
-  audioIsRecording: boolean = true;
+  audioIsRecording: boolean = false;
 
   constructor(private httpClient: HttpClient) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -29,15 +29,13 @@ export class RecordAudioComponent implements AfterViewInit {
     });
   }
 
-  record() {
+  startRecording() {
     this.audioChunks = [];
     this.mediaRecorder.start(50);
     this.audioIsRecording = true;
-    this.siriWave.start();
   }
 
-  stop() {
-    this.siriWave.stop();
+  stopRecording() {
     this.audioIsRecording = false;
     this.mediaRecorder.stop();
     let blobWebm = new Blob(this.audioChunks);
@@ -73,9 +71,8 @@ export class RecordAudioComponent implements AfterViewInit {
       container: this.siriAnimationContainer.nativeElement,
       cover: true,
       style: 'ios9',
-      amplitude: 1.5,
+      amplitude: 2.1,
       speed: 0.15,
-      autostart: false,
     });
   }
 }
