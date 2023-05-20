@@ -14,6 +14,7 @@ export class RecordAudioComponent implements AfterViewInit {
   @ViewChild('siriAnimationContainer') siriAnimationContainer!: ElementRef;
   siriWave!: SiriWave;
   audioIsRecording: boolean = false;
+  audioUrl: string | undefined;
 
   constructor(private httpClient: HttpClient) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -40,6 +41,8 @@ export class RecordAudioComponent implements AfterViewInit {
     this.mediaRecorder.stop();
     let blobWebm = new Blob(this.audioChunks);
     this.convertWebmToWav(blobWebm).then(blobWav => {
+      this.audioUrl = URL.createObjectURL(blobWav);
+      console.log(this.audioUrl);
       let formData = new FormData();
       formData.append('audio', blobWav);
       this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {
