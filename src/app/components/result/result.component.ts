@@ -2,6 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FeatureStorageService} from "../../services/feature-storage.service";
 import {MessageService} from "primeng/api";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 interface Emotion {
   name: string;
@@ -60,8 +61,9 @@ export class ResultComponent implements OnInit, AfterViewInit {
     }
   ];
   showEmotionPopup: boolean = false;
+  musicUrl: SafeUrl | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router, private featureStorage: FeatureStorageService, private messageService: MessageService) {
+  constructor(private route: ActivatedRoute, private router: Router, private featureStorage: FeatureStorageService, private messageService: MessageService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -76,6 +78,7 @@ export class ResultComponent implements OnInit, AfterViewInit {
 
   positiveFeedback() {
     this.featureStorage.postFeatureList(this.emotion.code);
+    this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/8wVtNyJN-pA');
   }
 
   negativeFeedback() {
