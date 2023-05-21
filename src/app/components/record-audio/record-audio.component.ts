@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/
 import {HttpClient} from "@angular/common/http";
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import SiriWave from "siriwave";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-record-audio',
@@ -17,7 +18,7 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
   audioUrl: string | undefined;
   blobWav!: Blob;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
       this.mediaRecorder = new MediaRecorder(stream, {
         mimeType: 'audio/webm',
@@ -87,8 +88,9 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
   submitRecording() {
     let formData = new FormData();
     formData.append('audio', this.blobWav);
-    this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {
+    this.httpClient.post<{emotion: string}>('http://127.0.0.1:8000/', formData).subscribe((response) => {
       console.log(response);
+      this.router.navigate(['result', response.emotion]).then(r => {});
     });
   }
 }
