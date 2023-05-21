@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FeatureStorageService} from "../../services/feature-storage.service";
 
 @Component({
   selector: 'app-result',
@@ -8,11 +9,13 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ResultComponent implements OnInit{
   emotion!: string;
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private router: Router, private featureStorage: FeatureStorageService) {
   }
 
   ngOnInit(): void {
+    if (this.featureStorage.isEmpty()) {
+      this.router.navigate(['/']).then(r => {});
+    }
     this.emotion = <string>this.route.snapshot.paramMap.get('emotion');
-    console.log(this.emotion)
   }
 }

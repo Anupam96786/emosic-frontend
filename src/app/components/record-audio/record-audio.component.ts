@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import SiriWave from "siriwave";
 import {Router} from "@angular/router";
+import {FeatureStorageService} from "../../services/feature-storage.service";
 
 @Component({
   selector: 'app-record-audio',
@@ -18,7 +19,7 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
   audioUrl: string | undefined;
   blobWav!: Blob;
 
-  constructor(private httpClient: HttpClient, private router: Router) {
+  constructor(private httpClient: HttpClient, private router: Router, private featureStorage: FeatureStorageService) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
       this.mediaRecorder = new MediaRecorder(stream, {
         mimeType: 'audio/webm',
@@ -88,9 +89,11 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
   submitRecording() {
     let formData = new FormData();
     formData.append('audio', this.blobWav);
-    this.httpClient.post<{emotion: string}>('http://127.0.0.1:8000/', formData).subscribe((response) => {
-      console.log(response);
-      this.router.navigate(['result', response.emotion]).then(r => {});
+    this.httpClient.post<{emotion: string, features: number[]}>('http://127.0.0.1:8000/', formData).subscribe((response) => {
+      this.router.navigate(['result', response.emotion]).then(r => {
+        this.clearRecording();
+        this.featureStorage.addFeatureList(response.features);
+      });
     });
   }
 }
