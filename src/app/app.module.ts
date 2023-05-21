@@ -7,6 +7,7 @@ import { RecordAudioComponent } from './components/record-audio/record-audio.com
 import {HttpClientModule} from "@angular/common/http";
 import { ResultComponent } from './components/result/result.component';
 import {ButtonModule} from "primeng/button";
+import {CardModule} from "primeng/card";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {ButtonModule} from "primeng/button";
     AppRoutingModule,
     HttpClientModule,
     ButtonModule,
+    CardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

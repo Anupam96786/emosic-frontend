@@ -9,13 +9,23 @@ import {FeatureStorageService} from "../../services/feature-storage.service";
 })
 export class ResultComponent implements OnInit{
   emotion!: string;
+  emojis = {
+    angry: '😡',
+    disgust: '😣',
+    fear: '😱',
+    happy: '😄',
+    neutral: '😐',
+    ps: '🤯',
+    sad: '😞'
+  }
+
   constructor(private route: ActivatedRoute, private router: Router, private featureStorage: FeatureStorageService) {
   }
 
   ngOnInit(): void {
-    if (this.featureStorage.isEmpty()) {
-      this.router.navigate(['/']).then(r => {});
-    }
+    // if (this.featureStorage.isEmpty()) {
+    //   this.router.navigate(['/']).then(r => {});
+    // }
     this.emotion = <string>this.route.snapshot.paramMap.get('emotion');
   }
 }
