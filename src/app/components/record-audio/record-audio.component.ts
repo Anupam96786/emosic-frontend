@@ -32,6 +32,7 @@ export class RecordAudioComponent implements AfterViewInit {
 
   startRecording() {
     this.audioChunks = [];
+    if (this.audioUrl) URL.revokeObjectURL(this.audioUrl);
     this.mediaRecorder.start(50);
     this.audioIsRecording = true;
   }
@@ -42,7 +43,6 @@ export class RecordAudioComponent implements AfterViewInit {
     let blobWebm = new Blob(this.audioChunks);
     this.convertWebmToWav(blobWebm).then(blobWav => {
       this.audioUrl = URL.createObjectURL(blobWav);
-      console.log(this.audioUrl);
       let formData = new FormData();
       formData.append('audio', blobWav);
       this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {

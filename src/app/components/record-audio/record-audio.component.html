@@ -1,15 +1,17 @@
-<div class="grid">
-  <div class="col-12 lg:col-6">
-    <h1>Say the word bad</h1>
-  </div>
-  <div class="col-12 lg:col-6">
-    <audio controls *ngIf="audioUrl" [src]='audioUrl'>
-    </audio>
-    <div id="siri-animation-container" #siriAnimationContainer [ngClass]="{'opacity-0': !audioIsRecording}"
-         class="transition-duration-200"></div>
-    <div class="record-buttons-container flex justify-content-center">
-      <button (click)="startRecording()" *ngIf="!audioIsRecording">Record</button>
-      <button (click)="stopRecording()" *ngIf="audioIsRecording">Stop</button>
+<div class="flex justify-content-center">
+  <div class="flex flex-column justify-content-between h-screen max-w-30rem w-full">
+    <div class="flex flex-column align-items-center mt-4">
+      <h1 class="mb-0 mt-4">Say the word bad</h1>
+      <audio controls *ngIf="audioUrl && !audioIsRecording" [src]='audioUrl' class="mt-4">
+      </audio>
+    </div>
+    <div class="mb-4">
+      <div id="siri-animation-container" #siriAnimationContainer [ngClass]="{'opacity-0': !audioIsRecording}"
+           class="transition-duration-200 mb-4"></div>
+      <div class="record-buttons-container flex justify-content-center mb-4">
+        <button (click)="startRecording()" *ngIf="!audioIsRecording">Record</button>
+        <button (click)="stopRecording()" *ngIf="audioIsRecording">Stop</button>
+      </div>
     </div>
   </div>
 </div>
