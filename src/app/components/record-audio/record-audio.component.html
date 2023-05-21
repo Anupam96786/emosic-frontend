@@ -1,7 +1,7 @@
 <div class="flex justify-content-center text-center align-items-center h-screen">
-  <div class="flex flex-column justify-content-between max-w-30rem w-full h-full" style="max-height: 45em">
+  <div class="flex flex-column justify-content-between h-full" style="max-height: 45em">
     <div class="flex flex-column align-items-center mt-4">
-      <h1 class="mb-0 mt-4">How are you feeling today?</h1>
+      <h1 class="mb-0 mt-4 md:text-6xl">How are you feeling today?</h1>
       <audio controls *ngIf="audioUrl && !audioIsRecording" [src]='audioUrl' class="mt-4">
       </audio>
     </div>
