@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RecordAudioComponent } from './components/record-audio/record-audio.component';
 import {HttpClientModule} from "@angular/common/http";
+import { ResultComponent } from './components/result/result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RecordAudioComponent
+    RecordAudioComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

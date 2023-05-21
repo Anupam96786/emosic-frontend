@@ -25,7 +25,6 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
       });
 
       this.mediaRecorder.addEventListener("dataavailable", event => {
-        console.log('yo')
         this.audioChunks.push(event.data);
       });
     });
