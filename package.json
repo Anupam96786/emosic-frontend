@@ -20,6 +20,7 @@
     "@angular/router": "^16.0.0",
     "@ffmpeg/ffmpeg": "^0.11.6",
     "primeflex": "^3.3.0",
+    "primeng": "^16.0.0-rc.2",
     "rxjs": "~7.8.0",
     "siriwave": "^2.3.0",
     "tslib": "^2.3.0",
