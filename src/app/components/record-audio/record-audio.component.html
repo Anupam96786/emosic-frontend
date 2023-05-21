@@ -8,9 +8,11 @@
     <div class="mb-4">
       <div id="siri-animation-container" #siriAnimationContainer [ngClass]="{'opacity-0': !audioIsRecording}"
            class="transition-duration-200 mb-4"></div>
-      <div class="record-buttons-container flex justify-content-center mb-4">
-        <button (click)="startRecording()" *ngIf="!audioIsRecording">Record</button>
-        <button (click)="stopRecording()" *ngIf="audioIsRecording">Stop</button>
+      <div class="record-buttons-container flex justify-content-around mb-4">
+        <button (click)="startRecording()" *ngIf="!audioIsRecording && !audioUrl">Record</button>
+        <button (click)="stopRecording()" *ngIf="audioIsRecording && !audioUrl">Stop</button>
+        <button (click)="clearRecording()" *ngIf="audioUrl && !audioIsRecording">Cancel</button>
+        <button (click)="submitRecording()" *ngIf="audioUrl && !audioIsRecording">Submit</button>
       </div>
     </div>
   </div>

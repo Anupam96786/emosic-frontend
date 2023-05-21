@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {createFFmpeg} from '@ffmpeg/ffmpeg';
 import SiriWave from "siriwave";
@@ -8,13 +8,14 @@ import SiriWave from "siriwave";
   templateUrl: './record-audio.component.html',
   styleUrls: ['./record-audio.component.scss']
 })
-export class RecordAudioComponent implements AfterViewInit {
+export class RecordAudioComponent implements OnInit, AfterViewInit {
   mediaRecorder!: MediaRecorder;
   audioChunks: Blob[] = [];
   @ViewChild('siriAnimationContainer') siriAnimationContainer!: ElementRef;
   siriWave!: SiriWave;
   audioIsRecording: boolean = false;
   audioUrl: string | undefined;
+  blobWav!: Blob;
 
   constructor(private httpClient: HttpClient) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -31,8 +32,7 @@ export class RecordAudioComponent implements AfterViewInit {
   }
 
   startRecording() {
-    this.audioChunks = [];
-    if (this.audioUrl) URL.revokeObjectURL(this.audioUrl);
+    this.clearRecording();
     this.mediaRecorder.start(50);
     this.audioIsRecording = true;
   }
@@ -43,11 +43,7 @@ export class RecordAudioComponent implements AfterViewInit {
     let blobWebm = new Blob(this.audioChunks);
     this.convertWebmToWav(blobWebm).then(blobWav => {
       this.audioUrl = URL.createObjectURL(blobWav);
-      let formData = new FormData();
-      formData.append('audio', blobWav);
-      this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {
-        console.log(response);
-      });
+      this.blobWav = blobWav;
     });
   }
 
@@ -76,6 +72,24 @@ export class RecordAudioComponent implements AfterViewInit {
       style: 'ios9',
       amplitude: 2.1,
       speed: 0.15,
+    });
+  }
+
+  ngOnInit() {
+
+  }
+
+  clearRecording() {
+    this.audioChunks = [];
+    if (this.audioUrl) URL.revokeObjectURL(this.audioUrl);
+    this.audioUrl = undefined;
+  }
+
+  submitRecording() {
+    let formData = new FormData();
+    formData.append('audio', this.blobWav);
+    this.httpClient.post('http://127.0.0.1:8000/', formData).subscribe((response) => {
+      console.log(response);
     });
   }
 }
