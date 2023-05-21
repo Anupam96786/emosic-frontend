@@ -10,7 +10,7 @@
            class="transition-duration-200 mb-4"></div>
       <div class="record-buttons-container flex justify-content-around mb-4">
         <p-button icon="pi pi-microphone text-2xl" styleClass="p-button-rounded p-button-danger p-5"
-                  (onClick)="startRecording()" *ngIf="!audioIsRecording && !audioUrl"></p-button>
+                  (onClick)="startRecording()" *ngIf="!audioIsRecording && !audioUrl" [loading]="audioIsLoading"></p-button>
         <p-button icon="pi pi-stop text-2xl" styleClass="p-button-rounded p-button-danger p-5"
                   (onClick)="stopRecording()" *ngIf="audioIsRecording && !audioUrl"></p-button>
         <p-button icon="pi pi-times text-2xl" styleClass="p-button-rounded p-button-danger p-5"

@@ -18,6 +18,7 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
   audioIsRecording: boolean = false;
   audioUrl: string | undefined;
   blobWav!: Blob;
+  audioIsLoading: boolean = false;
 
   constructor(private httpClient: HttpClient, private router: Router, private featureStorage: FeatureStorageService) {
     navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
@@ -39,12 +40,14 @@ export class RecordAudioComponent implements OnInit, AfterViewInit {
   }
 
   stopRecording() {
+    this.audioIsLoading = true;
     this.audioIsRecording = false;
     this.mediaRecorder.stop();
     let blobWebm = new Blob(this.audioChunks);
     this.convertWebmToWav(blobWebm).then(blobWav => {
       this.audioUrl = URL.createObjectURL(blobWav);
       this.blobWav = blobWav;
+      this.audioIsLoading = false;
     });
   }
 
