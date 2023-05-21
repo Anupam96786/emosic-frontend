@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { RecordAudioComponent } from './components/record-audio/record-audio.component';
 import {HttpClientModule} from "@angular/common/http";
 import { ResultComponent } from './components/result/result.component';
+import {ButtonModule} from "primeng/button";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ResultComponent } from './components/result/result.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
