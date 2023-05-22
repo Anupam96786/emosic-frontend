@@ -1,7 +1,7 @@
 <div class="grid m-0 min-h-screen w-full sm:p-6">
   <div class="col-12 lg:col-6 flex flex-column align-items-center justify-content-center">
-    <h1 class="m-0 text-8xl">{{emotion.emoji}}</h1>
-    <h1 class="mb-0 mt-5 lg:text-8xl">{{emotion.name}}</h1>
+    <h1 class="m-0 text-8xl">{{emotion?.emoji}}</h1>
+    <h1 class="mb-0 mt-5 lg:text-8xl">{{emotion?.name}}</h1>
   </div>
   <div class="col-12 lg:col-6 flex align-items-center justify-content-center">
     <p-card class="w-full p-2 lg:p-6" *ngIf="!musicUrl else youtubeIframe">

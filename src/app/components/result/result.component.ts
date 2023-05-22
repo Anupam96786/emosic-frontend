@@ -17,11 +17,7 @@ interface Emotion {
   providers: [MessageService]
 })
 export class ResultComponent implements OnInit, AfterViewInit {
-  emotion: Emotion = {
-    name: '',
-    emoji: '',
-    code: ''
-  };
+  emotion: Emotion | undefined;
   correctedEmotion: Emotion | undefined;
   emotions: Emotion[] = [
     {
@@ -67,9 +63,10 @@ export class ResultComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // if (this.featureStorage.isEmpty()) {
-    //   this.router.navigate(['/']).then(r => {});
-    // }
+    if (this.featureStorage.isEmpty()) {
+      this.router.navigate(['/']).then(r => {
+      });
+    }
     this.updateEmotion();
   }
 
@@ -77,9 +74,10 @@ export class ResultComponent implements OnInit, AfterViewInit {
   }
 
   positiveFeedback() {
-    this.featureStorage.postFeatureList(this.emotion.code).then(musicUrl => {
-      this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl(musicUrl);
-    });
+    if (this.emotion)
+      this.featureStorage.postFeatureList(this.emotion.code).then(musicUrl => {
+        this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl(musicUrl);
+      });
   }
 
   negativeFeedback() {
@@ -98,10 +96,14 @@ export class ResultComponent implements OnInit, AfterViewInit {
   }
 
   updateEmotion() {
+    this.emotion = undefined;
     for (let i = 0; i < this.emotions.length; i++) {
       if (this.emotions[i].code === <string>this.route.snapshot.paramMap.get('emotion')) {
         this.emotion = this.emotions[i];
       }
     }
+    if (!this.emotion)
+      this.router.navigate(['/']).then(r => {
+      });
   }
 }
