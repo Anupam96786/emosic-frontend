@@ -77,8 +77,9 @@ export class ResultComponent implements OnInit, AfterViewInit {
   }
 
   positiveFeedback() {
-    this.featureStorage.postFeatureList(this.emotion.code);
-    this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/8wVtNyJN-pA');
+    this.featureStorage.postFeatureList(this.emotion.code).then(musicUrl => {
+      this.musicUrl = this.sanitizer.bypassSecurityTrustResourceUrl(musicUrl);
+    });
   }
 
   negativeFeedback() {

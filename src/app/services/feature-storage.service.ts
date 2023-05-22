@@ -14,10 +14,13 @@ export class FeatureStorageService {
     this.features = features;
   }
 
-  postFeatureList(emotion: string) {
-    // this.http.post('http://127.0.0.1:8000/feedback/', {emotion: emotion, features: this.features}).subscribe();
-    console.log(emotion, this.features);
-    this.removeFeatureList();
+  postFeatureList(emotion: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.http.post<{music_url: string}>('http://127.0.0.1:8000/feedback/', {emotion: emotion, features: this.features}).subscribe(response => {
+        resolve(response.music_url);
+        this.removeFeatureList();
+      });
+    });
   }
 
   removeFeatureList() {
